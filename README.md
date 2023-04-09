@@ -2,18 +2,18 @@
 
 ```
 Based on work from :
-    -> Edoardo Paolo Scalafiotti <edoardo849@gmail.com>
-    -> Gary Beldon
-    -> Miroslav Kuhajda
+    -> Edoardo Paolo Scalafiotti , Gary Beldon , Miroslav Kuhajda, Franz Heinzl.
 
 Tested ( by me ) only:
     -> on RaspberryPi 4 with LibreELEC v11.0.1
-    -> with Noktua 5Volt PWM fan
+    -> with Noktua 5Volt PWM fan - 'NF-A6x25 5V PWM' (minimal PWM ~20%)
+       Blue wire is the PWM-in of the Fan. Advised PWM range 21kHz to 28kHz
+       External pull-up is not necessary as the signal is pulled up to 3,3V/5V inside the fan.
 ```
 ## Minimal requirements
 ```
 Script needs at least LibreELEC addons:
-    -> rpi-tools ( or raspberry-pi-tools )
+    -> rpi-tools ( or raspberry-pi-tools ) from Program-addons
     -> python
 ```
 
@@ -32,7 +32,9 @@ chmod 755 /storage/bin/pifanpwm.py
 
 ```python
 ### Some basic configuration.
-FAN_PIN   = 8     ### RaspberryPi GPIO PI used to drive PWM pin of FAN
+
+FAN_PIN   = 18    ### RaspberryPi GPIO PI used to drive PWM pin of FAN
+                  ### RaspberryPi PWM capable pins: Pin12-GPIO18 / Pin32-GPIO12 / Pin33-GPIO13 / Pin35-GPIO19
 WAIT_TIME = 15    ### [s] Time to wait between each refresh ( loop turn )
 FAN_MIN   = 0     ### [%] Fan minimum speed.
 PWM_FREQ  = 25000 ### [Hz] Change this value if fan has strange behavior
