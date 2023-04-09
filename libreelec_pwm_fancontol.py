@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-### Original Author : Edoardo Paolo Scalafiotti <edoardo849@gmail.com>
-### Modified to work on libreElec : Gary Beldon
-### Added some comments, outputs and install hints: Miroslav Kuhajda ( me )
+### Based on work from : Edoardo Paolo Scalafiotti <edoardo849@gmail.com> ,Gary Beldon, Miroslav Kuhajda.
 
 import os
 import time
@@ -14,10 +12,10 @@ sys.path.append('/storage/.kodi/addons/virtual.rpi-tools/lib')
 import RPi.GPIO as GPIO
 
 ### Some basic configuration.
-FAN_PIN = 8   ### RaspberryPi GPIO PI used to drive transistor's base
-WAIT_TIME = 5 ### [s] Time to wait between each refresh ( loop turn )
-FAN_MIN = 0   ### [%] Fan minimum speed.
-PWM_FREQ = 25 ### [Hz] Change this value if fan has strange behavior
+FAN_PIN   = ???   ### RaspberryPi GPIO PI used to drive PWM pin of Fan
+WAIT_TIME = 5     ### [s] Time to wait between each refresh ( loop turn )
+FAN_MIN   = 0     ### [%] Fan minimum speed.
+PWM_FREQ  = 25000 ### [Hz] Change this value if fan has strange behavior
 
 ### Configurabled temperature to fan speed.
 ###
@@ -36,7 +34,7 @@ tempSteps  = [20, 30, 40, 50, 60, 70,  80]  ### [°C]
 speedSteps = [0,  0,  0,  25, 50, 75, 100]  ### [%]
 
 ### Fan speed will change only of the difference of temperature is higher than hysteresis
-hyst = 1
+hyst = 2
 
 ### Setup GPIO pin
 GPIO.setmode(GPIO.BOARD)
@@ -51,7 +49,7 @@ fanSpeed = 0
 cpuTempOld = 0
 fanSpeedOld = 0
 
-### We must set a speed value for each temperature step
+### CHECK - We must set a speed value for each temperature step
 if len(speedSteps) != len(tempSteps):
     print("Numbers of temp steps and speed steps are different")
     exit(0)
@@ -80,8 +78,7 @@ try:
                                          * (cpuTemp - tempSteps[i])
                                          + speedSteps[i], 1)
             if fanSpeed != fanSpeedOld:
-                if (fanSpeed != fanSpeedOld
-                        and (fanSpeed >= FAN_MIN or fanSpeed == 0)):
+                if (fanSpeed != fanSpeedOld and (fanSpeed >= FAN_MIN or fanSpeed == 0)):
                     ### If fanSpeed is different from previous loop turn, then print info
                     now = datetime.now()
                     d_local = now.strftime("%d-%m-%Y")
@@ -94,6 +91,7 @@ try:
 
         ### Wait until next refresh
         time.sleep(WAIT_TIME)
+    #while 1 loop
 
 ### If a keyboard interrupt occurs (ctrl + c), the GPIO is set to 0 and the program exits.
 except KeyboardInterrupt:
