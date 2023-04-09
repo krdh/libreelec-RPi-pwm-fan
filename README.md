@@ -1,19 +1,14 @@
-## PWM fan controller for LibrELEC on RaspberryPi
+## PWM (3-pin/4-pin) fan control for LibrELEC on RaspberryPi
 
 ```
-Original Author of script:
+Based on work from :
     -> Edoardo Paolo Scalafiotti <edoardo849@gmail.com>
-
-Modified to work on libreELEC:
     -> Gary Beldon
-
-Added some comments, outputs and install hints:
     -> Miroslav Kuhajda
 
 Tested ( by me ) only:
-    -> on RaspberryPi 3B with LibreELEC v9.2.8
-    -> with "HighPi Pro 5V Fan - Software-Controlled" PWM FAN
-    -> run by Python version 2.7.16
+    -> on RaspberryPi 4 with LibreELEC v11.0.1
+    -> with Noktua 5Volt PWM fan
 ```
 ## Minimal requirements
 ```
@@ -37,13 +32,12 @@ chmod 755 /storage/bin/pifanpwm.py
 
 ```python
 ### Some basic configuration.
-FAN_PIN = 8   ### RaspberryPi GPIO PI used to drive transistor's base
-WAIT_TIME = 5 ### [s] Time to wait between each refresh ( loop turn )
-FAN_MIN = 0   ### [%] Fan minimum speed.
-PWM_FREQ = 25 ### [Hz] Change this value if fan has strange behavior
+FAN_PIN   = 8     ### RaspberryPi GPIO PI used to drive PWM pin of FAN
+WAIT_TIME = 15    ### [s] Time to wait between each refresh ( loop turn )
+FAN_MIN   = 0     ### [%] Fan minimum speed.
+PWM_FREQ  = 25000 ### [Hz] Change this value if fan has strange behavior
 
 ### Configurabled temperature to fan speed.
-###
 ### Raspberry Pi is designed to maximum CPU temperature 85°C so FAN maximum spin is set to 85°C.
 ###
 ###          < 20°C =>   0% PWM FAN speed ( FAN stops - no noise )
